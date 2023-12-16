@@ -1,0 +1,29 @@
+version: '3'
+services:
+  appointments:
+    build: ./appointments
+    ports:
+      - 7070:7070
+    networks:
+      - das
+
+  doctors:
+    build: ./doctors
+    ports:
+      - 9090:9090
+    networks:
+      - das
+
+  frontend:
+    build: ./frontend
+    ports:
+      - 3000:3000
+    environment:
+      - APPOINTMENTS_SERVICE_URL=appointments:7070
+      - DOCTORS_SERVICE_URL=doctors:9090
+    networks:
+      - das
+
+networks:
+  das:
+    driver: bridge
