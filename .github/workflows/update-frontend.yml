@@ -1,0 +1,28 @@
+name: Frontend Service CI/CD
+
+on:
+  push:
+    paths:
+      - 'frontend/**'
+  pull_request:
+    paths:
+      - 'frontend/**'
+  # Add other triggers as required
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Build and push Docker image
+        env:
+          VERSION: ${{ github.sha }}
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${VERSION} ./frontend
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${VERSION}
