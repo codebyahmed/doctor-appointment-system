@@ -7,8 +7,7 @@ on:
   pull_request:
     paths:
       - 'frontend/**'
-  # Add other triggers as required
-
+      
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
