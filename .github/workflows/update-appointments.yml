@@ -1,0 +1,25 @@
+name: Appointments Service CI/CD
+
+on:
+  push:
+    paths:
+      - 'appointments/**'
+  pull_request:
+    paths:
+      - 'appointments/**'
+  # Add other triggers as required
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build and push Docker image
+        env:
+          VERSION: ${{ github.sha }}
+        run: |
+          docker build -t your-dockerhub-username/appointments-service:${VERSION} ./appointments
+          docker push your-dockerhub-username/appointments-service:${VERSION}
