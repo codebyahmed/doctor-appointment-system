@@ -15,7 +15,7 @@ services:
       - das
 
   frontend:
-    image: codebyahmed/frontend:latest
+    image: codebyahmed/frontend:2
     ports:
       - 3000:3000
     environment:
