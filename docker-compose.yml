@@ -1,14 +1,14 @@
 version: '3'
 services:
   appointments:
-    image: codebyahmed/appointments:11
+    image: codebyahmed/appointments:12
     ports:
       - 7070:7070
     networks:
       - das
 
   doctors:
-    image: codebyahmed/doctors:5
+    image: codebyahmed/doctors:6
     ports:
       - 9090:9090
     networks:
