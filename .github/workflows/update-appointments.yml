@@ -27,6 +27,8 @@ jobs:
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/appointments:${VERSION}
 
       - name: Update Docker Compose file for Appointments service
+        env:
+          VERSION: ${{ github.run_number }}
         run: |
           sed -i "s|image: codebyahmed/appointments:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/appointments:${VERSION}|g" docker-compose.yml
           git config --global user.email "ahmediqbal.dev@gmail.com"
