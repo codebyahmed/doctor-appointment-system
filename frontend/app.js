@@ -8,7 +8,7 @@ const HOST = '0.0.0.0';
 const axios = require('axios'); 
 
 // App
-const app = express(); 
+const app = express();
 app.use(express.static('public'));
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html'); // Adjust the path to your HTML file
