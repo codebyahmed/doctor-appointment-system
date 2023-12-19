@@ -28,7 +28,7 @@ jobs:
 
       - name: Update Docker Compose file for Appointments service
         run: |
-          sed -i "s|image: ${{ secrets.DOCKERHUB_USERNAME }}/appointments:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/appointments:${VERSION}|g" docker-compose.yml
+          sed -i "s|image: codebyahmed/appointments:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/appointments:${VERSION}|g" docker-compose.yml
           git config --global user.email "ahmediqbal.dev@gmail.com"
           git config --global user.name "Ahmed Iqbal"
           git add docker-compose.yml
