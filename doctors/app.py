@@ -11,6 +11,10 @@ def hello():
   greeting = "Hello world!" 
   return greeting
 
+@app.rout('/health')
+def health():
+  return "HEALTH OK"
+
 @app.route('/doctors', methods=["GET"])
 def getDoctors():
   return jsonify(doctors)
