@@ -25,3 +25,12 @@ jobs:
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/appointments:${VERSION} ./appointments
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/appointments:${VERSION}
+
+      - name: Update Docker Compose file for Appointments service
+        run: |
+          sed -i "s|image: ${{ secrets.DOCKERHUB_USERNAME }}/appointments:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/appointments:${VERSION}|g" docker-compose.yml
+          git config --global user.email "ahmediqbal.dev@gmail.com"
+          git config --global user.name "Ahmed Iqbal"
+          git add docker-compose.yml
+          git commit -m "Update Appointments service image to latest version in Docker Compose file"
+          git push origin main
