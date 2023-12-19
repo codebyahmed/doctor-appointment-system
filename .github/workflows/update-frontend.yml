@@ -21,7 +21,18 @@ jobs:
 
       - name: Build and push Docker image
         env:
-          VERSION: ${{ github.sha }}
+          VERSION: ${{ github.run_number }}
         run: |
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${VERSION} ./frontend
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${VERSION}
+
+      - name: Update Docker Compose file for Frontend service
+        env:
+          VERSION: ${{ github.run_number }}
+        run: |
+          sed -i "s|image: codebyahmed/frontend:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/frontend:${VERSION}|g" docker-compose.yml
+          git config --global user.email "ahmediqbal.dev@gmail.com"
+          git config --global user.name "Ahmed Iqbal"
+          git add docker-compose.yml
+          git commit -m "Update Frontend service image to latest version in Docker Compose file"
+          git push origin main
