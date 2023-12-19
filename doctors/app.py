@@ -11,7 +11,7 @@ def hello():
   greeting = "Hello world!" 
   return greeting
 
-@app.rout('/health')
+@app.route('/health')
 def health():
   return "HEALTH OK"
 
