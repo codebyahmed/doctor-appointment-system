@@ -8,14 +8,14 @@ services:
       - das
 
   doctors:
-    image: codebyahmed/doctors:3
+    image: codebyahmed/doctors:4
     ports:
       - 9090:9090
     networks:
       - das
 
   frontend:
-    image: codebyahmed/frontend:2
+    image: codebyahmed/frontend:4
     ports:
       - 3000:3000
     environment:
