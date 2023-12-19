@@ -1,7 +1,7 @@
 version: '3'
 services:
   appointments:
-    image: codebyahmed/appointments:11
+    image: codebyahmed/appointments:12
     ports:
       - 7070:7070
     networks:
