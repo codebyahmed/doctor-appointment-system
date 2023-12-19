@@ -1,21 +1,21 @@
 version: '3'
 services:
   appointments:
-    image: codebyahmed/appointments:${APPOINTMENTS_VERSION}
+    image: codebyahmed/appointments:latest
     ports:
       - 7070:7070
     networks:
       - das
 
   doctors:
-    image: codebyahmed/doctors:${DOCTORS_VERSION}
+    image: codebyahmed/doctors:latest
     ports:
       - 9090:9090
     networks:
       - das
 
   frontend:
-    image: codebyahmed/frontend:${FRONTEND_VERSION}
+    image: codebyahmed/frontend:latest
     ports:
       - 3000:3000
     environment:
