@@ -35,4 +35,5 @@ jobs:
           git config --global user.name "Ahmed Iqbal"
           git add docker-compose.yml
           git commit -m "Update Doctors service image to latest version in Docker Compose file"
+          git pull origin main --no-rebase
           git push origin main
