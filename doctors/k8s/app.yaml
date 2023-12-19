@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: details
+data:
+  details.txt: |
+    My name is Ahmed Iqbal
+    I am a student of FAST NUCES
+    I will be the very best, like no one ever was (Pokemon Song)
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: doctors
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: doctors
+  template:
+    metadata:
+      labels:
+        app: doctors
+    spec:
+      containers:
+      - name: doctors
+        image: codebyahmed/doctors:5
+        ports:
+        - containerPort: 9090
+        volumeMounts: 
+        - name: doctors-volume 
+          mountPath: /user 
+        resources:
+          limits:
+            memory: "256Mi" 
+            cpu: "500m" 
+          requests:
+            memory: "128Mi" 
+            cpu: "250m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9090
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 9090
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          failureThreshold: 3
+      volumes:
+      - name: doctors-volume 
+        configMap:
+          name: details
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: doctors
+spec:
+  selector:
+    app: doctors
+  ports:
+    - protocol: TCP
+      port: 9090
+      targetPort: 9090

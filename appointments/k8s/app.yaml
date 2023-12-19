@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-credentials
+type: Opaque
+data:
+  username: YWhtZWRpcWJhbA==
+  password: bWVpbmt5dWJhdGF1bg==
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appointments
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: appointments
+  template:
+    metadata:
+      labels:
+        app: appointments
+    spec:
+      containers:
+      - name: appointments
+        image: codebyahmed/appointments:11
+        ports:
+        - containerPort: 7070
+        env:
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: password
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m" 
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 7070
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 7070
+          initialDelaySeconds: 20
+          periodSeconds: 15
+          failureThreshold: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: appointments
+spec:
+  selector:
+    app: appointments
+  ports:
+    - protocol: TCP
+      port: 7070
+      targetPort: 7070

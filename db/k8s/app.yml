@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+      - name: database
+        image: mysql:latest
+        ports:
+        - containerPort: 3306
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: "verydifficultpassword"
+          - name: MYSQL_DATABASE
+            value: "mydatabaseofcourse"
+          - name: MYSQL_USER
+            value: "ahmediqbal"
+          - name: MYSQL_PASSWORD
+            value: "meinkyubataun"
+        resources:
+          limits:
+            memory: "1Gi" 
+            cpu: "500m"  
+          requests:
+            memory: "512Mi"
+            cpu: "250m" 
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: database
+spec:
+  selector:
+    app: database
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306
